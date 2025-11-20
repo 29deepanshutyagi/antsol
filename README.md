@@ -101,7 +101,7 @@ Backend service that scans the blockchain, indexes packages, and provides a REST
    Developer Machine         Blockchain Layer          Storage Layer
    ┌──────────────┐         ┌──────────────┐          ┌──────────────┐
    │              │         │              │          │              │
-   │  AntSol CLI  │─publish→│    Solana    │          │     IPFS     │
+   │  AntSol CLI  │─publish→│    Solana    │----------|    IPFS     |
    │   (Rust)     │         │   Devnet     │          │  Distributed │
    │              │←─query──│   Program    │          │   Storage    │
    └──────────────┘         │   (Anchor)   │          │              │
