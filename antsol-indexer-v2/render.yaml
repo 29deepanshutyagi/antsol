@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: antsol-indexer-v2
+    env: docker
+    region: oregon
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: ./target/release/antsol-indexer-v2
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SOLANA_RPC_URL
+        value: https://devnet.helius-rpc.com/?api-key=ee02e9e2-e8b6-416d-b3fe-da77b4a9b2cf
+      - key: ANTSOL_PROGRAM_ID
+        value: A9igkBugcujD9Nw9d97FFN4aY3qHXnJEqCChJt8C42S
+      - key: HOST
+        value: 0.0.0.0
+      - key: RUST_BACKTRACE
+        value: "1"
+      - key: RUST_LOG
+        value: info
+    healthCheckPath: /health

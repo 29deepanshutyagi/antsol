@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # AntSol Indexer
+  indexer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: antsol-indexer
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      SOLANA_RPC_URL: ${SOLANA_RPC_URL:-https://api.devnet.solana.com}
+      ANTSOL_PROGRAM_ID: ${ANTSOL_PROGRAM_ID}
+      HOST: 0.0.0.0
+      PORT: 8080
+      RUST_LOG: info
+      RUST_BACKTRACE: 1
+    ports:
+      - "8080:8080"
+    networks:
+      - antsol-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+# Comment out postgres and pgadmin since you're using external database
+#  postgres:
+#    image: postgres:16-alpine
+#    container_name: antsol-postgres
+#    ...
+
+#  pgadmin:
+#    image: dpage/pgadmin4:latest
+#    ...
+
+networks:
+  antsol-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
